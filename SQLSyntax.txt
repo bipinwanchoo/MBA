@@ -1,0 +1,115 @@
+######EXTRACTING AND FILTERING########
+
+#Using SELECT
+select first_name, last_name from actor ;
+
+#Using WHERE clause
+select first_name, last_name from actor where first_name = "Joe";
+
+#Using LOGICAL OPERATORS
+select * from actor
+where first_name = "GROUCHO" AND last_name = "WILLIAMs"; 
+
+#The LIKE Statement
+select * from actor where last_name like 'Jo%' // % - The percent sign represents zero, one, or multiple characters. _ - The underscore represents a single character
+
+#The IN Statement
+select language_id, title from film where language_id IN (1); // same as language_id=1
+select language_id, title from film where language_id IN (1,2); // same as language_id = 1 OR language_id = 2
+select language_id, title from film where language_id IN (1,2,9); // same as language_id = 1 OR language_id = 2 OR language_id = 9
+
+#The BETWEEN Statement
+
+#Using DATE
+select * from payment where payment_date>= '2005-08-01' AND payment_date <= '2005-08-31' // Note that Date is in single quotes.
+
+#DE-DUPLICATE
+select DISTICNT ....
+
+######AGGREGATION AND SORTING########
+
+Sorting means Order by asc or Desc
+
+#Using ORDER BY
+select * from customer order by last_name asc // asc is default . asc for alphabets means a<b<c. So, 'a' will show up first.
+select * from customer order by last_name desc
+
+#AGGREGATE FUNCTIONS - COUNT, SUM, AVG, MIN, MAX - For numeric data ; "Group by" for Categorical Data.
+select last_name, count(*) as actor_count from actor group by last_name  // actors have the same last name; get the last name and the count of the actors 
+select last_name, count(*) as actor_count from actor group by last_name  order by actor_count desc
+
+#The HAVING statement - Needs to be used before Order By statement. The ' where' clause can't be used with Aggregates. So, 'Having' is used with Aggregates. 
+select last_name, count(*) as actor_count from actor 
+group by last_name 
+having actor_count < 3 
+order by actor_count desc 
+
+#Using ALL AGGREGATES, SORTING, TOGETHER
+select actor_id,last_name, count(*) as actor_count from actor 
+where actor_id between 2 AND 200
+group by last_name 
+having actor_count > 3 
+order by actor_count desc 
+
+
+#Windows Functions 
+TBD
+
+
+#NESTED QUERIES//INNER QUERIES//SUB-QUERIES
+Nested Queries as used to use the result of one table into another table.
+
+Example :
+select country_id from country where country = "Canada"; yields country_id = 20;
+Now, we may write 
+select city_id from city where country_id = 20;
+
+Instead of these 2 queries, we can nest them, 
+select city_id from city where country_id IN (select country_id from country where country = "Canada"); // Note that IN has been used in nested query.
+
+Example:
+
+select * from customer where address_id IN (
+select address_id from address where city_id IN (
+select city_id from city where country_id IN (
+select country_id from country where country = "Canada")));
+
+##################################JOINS###########################################
+
+If we want attributes of more than one Table in a single output, it is achieved by JOINS.
+JOIN is used to join two different tables by using a common entity (Primary Key).
+
+The result of above query can also be achieved using JOINS: // Take a note of "USING" keyword and in the bracket is the primary key. The "using" keyword can be used when both the tables have the same keyword.
+select first_name,last_name, email, city, country from customer
+inner join address using(address_id) 
+inner join city using(city_id)
+inner join country using(country_id)
+where country = "Canada"
+
+#INSERT COMMAND
+
+INSERT into 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
